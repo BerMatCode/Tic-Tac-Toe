@@ -3,23 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="theme-color" content="#f4f6fb" id="theme-color-meta"/>
+  <meta name="theme-color" content="#faf8f5" id="theme-color-meta"/>
   <title>Tic-Tac-Toe-BerMatCode</title>
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg: #f4f6fb; --card: #ffffff; --text: #1e293b; --text-muted: #64748b;
-      --border: #cbd5e1; --border-strong: #94a3b8; --primary: #667eea; --secondary: #764ba2;
-      --success: #2ecc71; --danger: #ef4444; 
-      --shadow: 0 10px 30px rgba(0,0,0,0.08);
-      --glow: 0 4px 16px rgba(102,126,234,0.25);
+      /* TEMA CLARO */
+      --bg: #f5f0eb;
+      --bg-gradient: linear-gradient(145deg, #f5f0eb 0%, #e8e0d8 100%);
+      --card: #ffffff;
+      --card-border: #e0d5ca;
+      --text: #2d2a26;
+      --text-muted: #8a8279;
+      --border: #d4c9be;
+      --border-strong: #b8a99a;
+      --primary: #e86a33;
+      --primary-glow: rgba(232,106,51,0.35);
+      --secondary: #d4448b;
+      --success: #22c55e;
+      --danger: #e63946;
+      --shadow: 0 10px 40px rgba(45,42,38,0.1);
+      --glow: 0 4px 20px rgba(232,106,51,0.2);
       --radius: 18px;
+      --cell-bg: #fdfbf9;
+      --cell-hover: rgba(232,106,51,0.08);
     }
+
     [data-theme="dark"] {
-      --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --text-muted: #94a3b8;
-      --border: #475569; --border-strong: #64748b; --shadow: 0 10px 30px rgba(0,0,0,0.35);
-      --glow: 0 4px 16px rgba(102,126,234,0.35);
+      /* TEMA OSCURO */
+      --bg: #080810;
+      --bg-gradient: linear-gradient(145deg, #080810 0%, #101020 100%);
+      --card: #141428;
+      --card-border: #2a2a4a;
+      --text: #e8e6f0;
+      --text-muted: #7a7a9a;
+      --border: #2a2a4a;
+      --border-strong: #3a3a5e;
+      --primary: #00d4ff;
+      --primary-glow: rgba(0,212,255,0.4);
+      --secondary: #a855f7;
+      --success: #22c55e;
+      --danger: #ff3b5c;
+      --shadow: 0 10px 40px rgba(0,0,0,0.5);
+      --glow: 0 4px 24px rgba(0,212,255,0.3);
+      --cell-bg: #1a1a35;
+      --cell-hover: rgba(0,212,255,0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -27,21 +56,25 @@
       height: 100dvh; width: 100vw; overflow: hidden;
       font-family: 'Patrick Hand', cursive; background: var(--bg); color: var(--text);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: background 0.4s ease, color 0.4s ease;
     }
+    body { background: var(--bg-gradient); }
 
     .app-container {
       background: var(--card); border-radius: var(--radius); padding: 28px 22px;
       max-width: 390px; width: 92%; box-shadow: var(--shadow);
       position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center;
-      border: 2px solid var(--primary);
+      border: 2px solid var(--card-border);
+      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
     }
+
     h1 {
       text-align: center; color: var(--primary); margin-bottom: 24px;
-      font-size: 2.2rem; font-weight: 700; 
-      text-shadow: 0 0 10px rgba(102,126,234,0.5), 0 0 20px rgba(118,75,162,0.3);
-      letter-spacing: 1px;
+      font-size: 2.2rem; font-weight: 700; letter-spacing: 1px;
+      text-shadow: 0 2px 12px var(--primary-glow);
+      transition: color 0.4s ease, text-shadow 0.4s ease;
     }
+
     .view { display: none; width: 100%; }
     .view.active { display: block; }
 
@@ -49,16 +82,15 @@
       width: 100%; padding: 15px; margin: 10px 0; 
       border: 3px solid var(--border-strong);
       border-radius: 14px; font-size: 17px; text-align: center; font-weight: 500;
-      transition: all 0.2s; background: var(--card); color: var(--text);
+      transition: all 0.2s; background: var(--cell-bg); color: var(--text);
       font-family: 'Patrick Hand', cursive;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    input::placeholder { color: var(--text-muted); opacity: 0.9; }
+    input::placeholder { color: var(--text-muted); opacity: 0.8; }
     input:focus { 
       outline: none; 
       border-color: var(--primary); 
-      box-shadow: var(--glow), 0 0 0 4px rgba(102,126,234,0.15); 
-      background: var(--card); 
+      box-shadow: 0 0 0 4px var(--primary-glow); 
     }
 
     button {
@@ -68,27 +100,34 @@
       transition: transform 0.15s, box-shadow 0.2s; font-family: 'Patrick Hand', cursive;
       text-shadow: 0 1px 3px rgba(0,0,0,0.2); box-shadow: var(--glow);
     }
-    button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.35); }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--primary-glow); }
     button:active { transform: translateY(0); }
-    button.secondary { background: linear-gradient(135deg, #94a3b8, #64748b); }
-    button.success { background: linear-gradient(135deg, #34d399, #059669); }
-    button.danger { background: linear-gradient(135deg, #f87171, #dc2626); }
+    button.secondary { background: linear-gradient(135deg, var(--border-strong), var(--border)); color: var(--text); box-shadow: none; }
+    button.secondary:hover { box-shadow: var(--shadow); }
+    button.success { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    button.success:hover { box-shadow: 0 8px 20px rgba(34,197,94,0.4); }
+    button.danger { background: linear-gradient(135deg, #e63946, #b91c2e); }
+    button.danger:hover { box-shadow: 0 8px 20px rgba(230,57,70,0.4); }
     button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
     .code-box {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white; padding: 24px; border-radius: 16px; text-align: center;
       font-size: 32px; font-weight: 700; letter-spacing: 10px; margin: 20px 0;
-      box-shadow: var(--glow); text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      box-shadow: var(--glow); text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
 
     .players { display: flex; justify-content: space-between; gap: 14px; margin-bottom: 8px; width: 100%; }
     .player-card {
-      flex: 1; padding: 14px; border-radius: 14px; background: var(--bg);
+      flex: 1; padding: 14px; border-radius: 14px; background: var(--cell-bg);
       text-align: center; border: 2px solid var(--border-strong); transition: all 0.2s; color: var(--text);
     }
-    .player-card.active { border-color: var(--primary); background: rgba(102,126,234,0.12); transform: scale(1.02); }
-    .player-card.me { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-color: transparent; }
+    .player-card.active { border-color: var(--primary); background: var(--cell-hover); transform: scale(1.02); }
+    .player-card.me { 
+      background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+      color: white; border-color: transparent; 
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
     .player-name { font-weight: 600; font-size: 14px; margin-bottom: 5px; }
     .player-symbol { font-size: 24px; font-weight: 700; }
 
@@ -96,38 +135,33 @@
       width: 100%; max-width: 270px;
       padding: 12px 16px; margin: 8px auto 12px;
       border-radius: 14px; border: 2px solid var(--border-strong);
-      background: var(--card); color: var(--primary);
+      background: var(--cell-bg); color: var(--primary);
       font-size: 15px; font-weight: 600; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       gap: 8px; transition: all 0.2s;
       font-family: 'Patrick Hand', cursive;
-      box-shadow: var(--glow);
+      box-shadow: none;
     }
-    .btn-mando:hover:not(:disabled) { 
-      background: rgba(102,126,234,0.08); 
-      border-color: var(--primary);
-      transform: translateY(-2px);
-    }
+    .btn-mando:hover:not(:disabled) { background: var(--cell-hover); border-color: var(--primary); transform: translateY(-2px); }
     .btn-mando:active:not(:disabled) { transform: translateY(0); }
-    .btn-mando:disabled { 
-      opacity: 0.5; cursor: not-allowed; 
-      transform: none; box-shadow: none;
-      background: var(--bg); color: var(--text-muted);
-      border-color: var(--border);
-    }
+    .btn-mando:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; background: var(--bg); color: var(--text-muted); border-color: var(--border); }
     .btn-mando.active {
-      background: linear-gradient(135deg, var(--success), #059669);
+      background: linear-gradient(135deg, var(--success), #16a34a);
       color: white; border-color: transparent;
     }
 
     .status {
       padding: 14px; border-radius: 14px; text-align: center; font-weight: 600; font-size: 16px;
-      margin: 8px 0 16px; width: 100%; background: var(--bg); color: var(--text-muted);
+      margin: 8px 0 16px; width: 100%; background: var(--cell-bg); color: var(--text-muted);
       border: 2px solid var(--border-strong); transition: all 0.3s;
     }
-    .status.my-turn { background: var(--success); color: white; border-color: transparent; }
-    .status.their-turn { background: var(--text-muted); color: white; opacity: 0.9; border-color: transparent; }
-    .status.finished { background: var(--danger); color: white; border-color: transparent; }
+    .status.my-turn { 
+      background: linear-gradient(135deg, #22c55e, #16a34a); 
+      color: white; border-color: transparent; 
+      box-shadow: 0 4px 15px rgba(34,197,94,0.5);
+    }
+    .status.their-turn { background: linear-gradient(135deg, var(--text-muted), #6a6a7a); color: white; opacity: 0.95; border-color: transparent; }
+    .status.finished { background: linear-gradient(135deg, #e63946, #b91c2e); color: white; border-color: transparent; }
 
     .board {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
@@ -137,27 +171,31 @@
     
     .cell {
       aspect-ratio: 1; 
-      background: var(--card); 
+      background: var(--cell-bg); 
       border: 4px solid var(--border-strong);
       border-radius: 16px; 
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: all 0.15s; font-weight: 700;
       color: var(--text); font-family: 'Patrick Hand', cursive;
       user-select: none;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
     }
     .cell:hover:not(.taken) { 
-      background: rgba(102,126,234,0.1); 
+      background: var(--cell-hover); 
       border-color: var(--primary); 
       transform: scale(1.03);
-      box-shadow: 0 6px 20px rgba(102,126,234,0.25);
+      box-shadow: 0 6px 20px var(--primary-glow);
     }
     
-    .cell.x { color: var(--danger); font-size: 44px; }
-    .cell.o { color: var(--primary); font-size: 44px; }
+    /* ✅ COLORES DISTINTIVOS PARA X y O */
+    .cell.x { color: #111827; font-size: 44px; } /* Negro oscuro en claro */
+    .cell.o { color: #dc2626; font-size: 44px; } /* Rojo vibrante en claro */
+    
+    [data-theme="dark"] .cell.x { color: #22d3ee; } /* Cian neón en oscuro */
+    [data-theme="dark"] .cell.o { color: #f472b6; } /* Rosa neón en oscuro */
     
     .cell.taken { cursor: default; }
-    .cell.winner { background: var(--success); color: white; border-color: var(--success); box-shadow: 0 0 25px rgba(46,204,113,0.5); }
+    .cell.winner { background: var(--success); color: white; border-color: var(--success); box-shadow: 0 0 30px rgba(34,197,94,0.6); }
     .cell.flash { animation: cellFlash 0.3s ease; }
     @keyframes cellFlash {
       0% { transform: scale(0.8); opacity: 0; }
@@ -165,6 +203,7 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
+    /* BOTÓN DE SALIDA - SOLO VISIBLE EN JUEGO */
     .btn-exit {
       position: fixed; top: 14px; right: 14px; 
       width: 36px; height: 36px; border-radius: 50%;
@@ -173,37 +212,26 @@
       border: 2px solid var(--danger);
       padding: 0; margin: 0; font-size: 0; 
       transition: all 0.15s ease; z-index: 95;
+      opacity: 0; pointer-events: none; transform: scale(0.8);
     }
+    .btn-exit.visible { opacity: 1; pointer-events: auto; transform: scale(1); }
     .btn-exit:hover { 
       transform: scale(1.1); 
-      box-shadow: 0 5px 18px rgba(239,68,68,0.35);
+      box-shadow: 0 5px 18px rgba(230,57,70,0.4);
       background: var(--danger);
     }
     .btn-exit:active { transform: scale(0.95); }
     .btn-exit::before {
-      content: "";
-      display: block;
-      width: 10px; height: 14px;
-      border: 2px solid var(--danger);
-      border-radius: 1px 4px 4px 1px;
-      border-left: none;
-      transition: border-color 0.15s;
+      content: ""; display: block; width: 10px; height: 14px;
+      border: 2px solid var(--danger); border-radius: 1px 4px 4px 1px;
+      border-left: none; transition: border-color 0.15s;
     }
     .btn-exit::after {
-      content: "";
-      display: block;
-      width: 4px; height: 2px;
-      background: var(--danger);
-      position: absolute;
-      right: 14px; top: 50%;
-      transform: translateY(-50%);
-      transition: background 0.15s;
+      content: ""; display: block; width: 4px; height: 2px;
+      background: var(--danger); position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%); transition: background 0.15s;
     }
-    .btn-exit:hover::before,
-    .btn-exit:hover::after {
-      border-color: white;
-      background: white;
-    }
+    .btn-exit:hover::before, .btn-exit:hover::after { border-color: white; background: white; }
 
     .btn-float {
       position: fixed; bottom: 22px; width: 58px; height: 58px; border-radius: 50%;
@@ -215,14 +243,16 @@
     .btn-float:active { transform: scale(0.95); }
     .btn-reactions { left: 20px; }
 
+    /* BOTÓN DE TEMA - TOGGLE SIMPLE */
     .btn-theme {
       position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%;
       background: var(--card); display: flex; align-items: center; justify-content: center;
       box-shadow: var(--shadow); cursor: pointer; border: 2px solid var(--border-strong);
-      padding: 0; margin: 0; font-size: 24px; transition: transform 0.15s; z-index: 95;
+      padding: 0; margin: 0; font-size: 24px; transition: transform 0.3s, background 0.4s, border-color 0.4s; z-index: 95;
     }
-    .btn-theme:hover { transform: scale(1.1); }
+    .btn-theme:hover { transform: scale(1.15) rotate(20deg); }
     .btn-theme:active { transform: scale(0.95); }
+    .btn-theme .theme-icon { transition: transform 0.3s; }
 
     .emoji-picker {
       position: fixed; bottom: 88px; left: 20px;
@@ -234,12 +264,12 @@
     .emoji-picker.active { display: grid; }
     .emoji-btn {
       width: 52px; height: 52px; border: none;
-      background: var(--bg); border-radius: 50%; font-size: 28px;
+      background: var(--cell-bg); border-radius: 50%; font-size: 28px;
       cursor: pointer; transition: 0.2s; display: flex;
       align-items: center; justify-content: center;
       border: 2px solid var(--border-strong);
     }
-    .emoji-btn:hover { transform: scale(1.15); background: rgba(102,126,234,0.1); border-color: var(--primary); }
+    .emoji-btn:hover { transform: scale(1.15); background: var(--cell-hover); border-color: var(--primary); }
 
     .reaction-bubble {
       position: fixed; width: 100px; height: 100px;
@@ -267,14 +297,14 @@
 
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15,23,42,0.65); backdrop-filter: blur(6px);
+      background: rgba(8,8,16,0.7); backdrop-filter: blur(8px);
       display: none; align-items: center; justify-content: center; z-index: 1000;
     }
     .modal-overlay.active { display: flex; }
     .modal-content {
       background: var(--card); border-radius: 22px; padding: 28px;
       max-width: 330px; width: 90%; text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid var(--border-strong);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 1px solid var(--card-border);
       position: relative;
     }
     .modal-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
@@ -292,7 +322,7 @@
     .modal-close-btn {
       position: absolute; top: 12px; right: 14px;
       width: 34px; height: 34px; border-radius: 50%;
-      background: var(--bg); border: 1px solid var(--border-strong);
+      background: var(--cell-bg); border: 1px solid var(--border);
       color: var(--text-muted); font-size: 20px;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; padding: 0; transition: all 0.2s;
@@ -301,26 +331,41 @@
     .modal-close-btn:hover { background: var(--danger); color: white; border-color: var(--danger); }
     .modal-close-btn.hidden { display: none !important; }
 
-    .theme-modal {
+    /* ✅ MODAL DE ERROR DE TURNO */
+    .turn-error-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15,23,42,0.65); backdrop-filter: blur(6px);
-      display: none; align-items: center; justify-content: center; z-index: 1000;
+      background: rgba(10,10,20,0.65); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center; z-index: 1500;
+      cursor: pointer;
     }
-    .theme-modal.active { display: flex; }
-    .theme-content {
-      background: var(--card); border-radius: 22px; padding: 26px;
-      max-width: 350px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      border: 1px solid var(--border-strong); text-align: center; position: relative;
+    .turn-error-overlay.active { display: flex; }
+    .turn-error-content {
+      background: linear-gradient(145deg, #fff5f5, #ffe3e3);
+      border-radius: 20px; padding: 24px 20px; max-width: 320px; width: 85%;
+      text-align: center; box-shadow: 0 15px 45px rgba(230,57,70,0.35);
+      border: 2px solid #e63946;
+      animation: modalBounce 0.35s ease;
+      position: relative;
     }
-    .theme-title { font-size: 19px; font-weight: 700; margin-bottom: 18px; color: var(--primary); }
-    .theme-options { display: flex; flex-direction: column; gap: 12px; }
-    .theme-option-btn {
-      padding: 15px; border-radius: 14px; border: 2px solid var(--border-strong);
-      background: var(--bg); color: var(--text); cursor: pointer;
-      font-family: 'Patrick Hand', cursive; font-size: 17px; transition: all 0.2s;
+    [data-theme="dark"] .turn-error-content {
+      background: linear-gradient(145deg, #200a15, #2a1020);
+      border-color: #ff3b5c;
+      box-shadow: 0 15px 45px rgba(255,59,92,0.45);
     }
-    .theme-option-btn.active { border-color: var(--primary); background: rgba(102,126,234,0.1); font-weight: 700; color: var(--primary); }
-    .theme-option-btn:hover { border-color: var(--primary); }
+    .turn-error-icon { font-size: 44px; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
+    .turn-error-title { 
+      font-size: 20px; font-weight: 700; 
+      background: linear-gradient(90deg, #e63946, #b91c2e);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 8px; 
+    }
+    .turn-error-text { font-size: 15px; color: #555; line-height: 1.4; font-weight: 500; }
+    [data-theme="dark"] .turn-error-text { color: #c0c0d0; }
+    @keyframes modalBounce {
+      0% { transform: scale(0.85); opacity: 0; }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); opacity: 1; }
+    }
 
     .rematch-requesting {
       font-size: 20px; font-weight: 700; color: var(--primary); margin: 12px 0;
@@ -342,34 +387,32 @@
     .credits {
       font-family: 'Patrick Hand', cursive; font-size: 21px;
       color: var(--primary); text-align: center; margin-top: 22px;
-      text-shadow: var(--glow); letter-spacing: 1px; opacity: 0.9;
+      text-shadow: 0 0 15px var(--primary-glow); letter-spacing: 1px; opacity: 0.9;
+      transition: color 0.4s ease;
     }
     .hidden { display: none !important; }
 
     .result-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15,23,42,0.45); backdrop-filter: blur(3px);
+      background: rgba(8,8,16,0.5); backdrop-filter: blur(4px);
       display: none; align-items: center; justify-content: center;
       z-index: 2000; animation: overlayFadeIn 0.3s ease;
       cursor: pointer;
       pointer-events: none;
     }
-    .result-overlay.active { 
-      display: flex; 
-      pointer-events: auto;
-    }
+    .result-overlay.active { display: flex; pointer-events: auto; }
     @keyframes overlayFadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
     .result-text {
       font-size: 48px; font-weight: 700; text-align: center;
-      color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      color: white; text-shadow: 0 4px 25px rgba(0,0,0,0.5);
       animation: resultPop 0.5s ease;
       padding: 20px 40px;
       background: rgba(255,255,255,0.12);
       border-radius: 24px;
-      border: 3px solid rgba(255,255,255,0.35);
+      border: 3px solid rgba(255,255,255,0.3);
       pointer-events: none;
       user-select: none;
     }
@@ -378,9 +421,9 @@
       50% { transform: scale(1.1); }
       100% { transform: scale(1); opacity: 1; }
     }
-    .result-win { color: var(--success); text-shadow: 0 0 30px rgba(46,204,113,0.6); }
-    .result-lose { color: var(--danger); text-shadow: 0 0 30px rgba(239,68,68,0.6); }
-    .result-draw { color: #fbbf24; text-shadow: 0 0 30px rgba(251,191,36,0.6); }
+    .result-win { color: var(--success); text-shadow: 0 0 35px rgba(34,197,94,0.7); }
+    .result-lose { color: var(--danger); text-shadow: 0 0 35px rgba(230,57,70,0.7); }
+    .result-draw { color: #fbbf24; text-shadow: 0 0 35px rgba(251,191,36,0.7); }
     
     .confetti {
       position: fixed; width: 10px; height: 10px;
@@ -418,11 +461,13 @@
   <div id="result-text" class="result-text"></div>
 </div>
 
-<!-- BOTÓN DE SALIDA -->
-<button class="btn-exit" onclick="confirmLeave()" title="Salir de la partida"></button>
+<!-- BOTÓN DE SALIDA - SOLO EN PANTALLA DE JUEGO -->
+<button class="btn-exit" id="btn-exit" onclick="confirmLeave()" title="Salir de la partida"></button>
 
-<!-- BOTÓN DE TEMA -->
-<button class="btn-theme" onclick="openTheme()">🎨</button>
+<!-- BOTÓN DE TEMA - TOGGLE SIMPLE -->
+<button class="btn-theme" id="btn-theme" onclick="toggleTheme()" title="Cambiar tema">
+  <span class="theme-icon" id="theme-icon">🌙</span>
+</button>
 
 <div class="app-container">
   <h1>Tres en Raya</h1>
@@ -493,6 +538,15 @@
   <div class="reaction-sender" id="b-sender"></div>
 </div>
 
+<!-- MODAL ERROR DE TURNO -->
+<div id="turn-error-overlay" class="turn-error-overlay" onclick="closeTurnError()">
+  <div class="turn-error-content" onclick="event.stopPropagation()">
+    <div class="turn-error-icon">⚠️</div>
+    <div class="turn-error-title">¡Espera!</div>
+    <div class="turn-error-text" id="turn-error-text">No es tu turno...</div>
+  </div>
+</div>
+
 <!-- MODAL CONFIRMAR SALIR -->
 <div id="confirm-modal" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'confirm-modal')">
   <div class="modal-content" onclick="event.stopPropagation()">
@@ -535,19 +589,6 @@
   </div>
 </div>
 
-<!-- MODAL TEMA -->
-<div id="theme-modal" class="theme-modal" onclick="closeModalOnBackdrop(event, 'theme-modal')">
-  <div class="theme-content" onclick="event.stopPropagation()">
-    <button class="modal-close-btn" onclick="closeTheme()">✕</button>
-    <div class="theme-title">Seleccionar Tema</div>
-    <div class="theme-options">
-      <button class="theme-option-btn" id="theme-light" onclick="setTheme('light')">Claro</button>
-      <button class="theme-option-btn" id="theme-dark" onclick="setTheme('dark')">Oscuro</button>
-      <button class="theme-option-btn" id="theme-auto" onclick="setTheme('auto')">Automatico</button>
-    </div>
-  </div>
-</div>
-
 <!-- MODAL GENERICO -->
 <div id="modal" class="modal-overlay">
   <div class="modal-content" onclick="event.stopPropagation()">
@@ -586,9 +627,8 @@
   let laughAudioPlayed = false;
   let resultOverlayShown = false;
   let previousWinner = null;
-  let isLeaving = false; // 🚪 Flag para evitar modal de "oponente salió" cuando YO salgo
+  let isLeaving = false;
 
-  // === REFERENCIAS A LOS AUDIOS ===
   const laughAudio = document.getElementById('laugh-audio');
   const audioEmpate = document.getElementById('audio-empate');
   const audioMovida = document.getElementById('audio-movida');
@@ -612,29 +652,16 @@
     setTimeout(() => { laughAudioPlayed = false; }, 2000);
   }
 
-  function playMovidaSound() {
-    safePlay(audioMovida);
-  }
-
-  function playEmpateSound() {
-    safePlay(audioEmpate);
-  }
-
-  function playPerdidoSound() {
-    safePlay(audioPerdido);
-  }
-
-  function playVictoriaSound() {
-    safePlay(audioVictoria);
-  }
+  function playMovidaSound() { safePlay(audioMovida); }
+  function playEmpateSound() { safePlay(audioEmpate); }
+  function playPerdidoSound() { safePlay(audioPerdido); }
+  function playVictoriaSound() { safePlay(audioVictoria); }
 
   function showResultOverlay(resultType) {
     if (resultOverlayShown) return;
     resultOverlayShown = true;
-    
     const overlay = document.getElementById('result-overlay');
     const textEl = document.getElementById('result-text');
-    
     if (resultType === 'win') {
       textEl.textContent = '¡Ganaste! 🎉🎊';
       textEl.className = 'result-text result-win';
@@ -649,74 +676,64 @@
       textEl.className = 'result-text result-draw';
       playEmpateSound();
     }
-    
     overlay.classList.add('active');
   }
 
   window.closeResultOverlay = () => {
-    const overlay = document.getElementById('result-overlay');
-    overlay.classList.remove('active');
+    document.getElementById('result-overlay').classList.remove('active');
   };
-
   document.getElementById('result-overlay').addEventListener('click', (e) => {
-    if (e.target.id === 'result-overlay') {
-      closeResultOverlay();
-    }
+    if (e.target.id === 'result-overlay') closeResultOverlay();
   });
 
   function createConfetti() {
-    const colors = ['#2ecc71', '#34d399', '#667eea', '#764ba2', '#fbbf24', '#f87171'];
-    for (let i = 0; i < 30; i++) {
+    const colors = ['#22c55e','#00d4ff','#a855f7','#fbbf24','#e63946','#e86a33'];
+    for (let i = 0; i < 35; i++) {
       setTimeout(() => {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
-        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 3000);
-      }, i * 50);
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDuration = (2 + Math.random() * 2) + 's';
+        c.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 3000);
+      }, i * 40);
     }
   }
 
   function initTheme() {
     const saved = localStorage.getItem('tic_theme') || 'light';
-    applyTheme(saved); updateThemeButtons(saved);
+    applyTheme(saved);
   }
+
   function applyTheme(mode) {
     const html = document.documentElement;
     const meta = document.getElementById('theme-color-meta');
-    if (mode === 'auto') {
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      html.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      meta.setAttribute('content', isDark ? '#0f172a' : '#f4f6fb');
-    } else {
-      html.setAttribute('data-theme', mode);
-      meta.setAttribute('content', mode === 'dark' ? '#0f172a' : '#f4f6fb');
-    }
-  }
-  function updateThemeButtons(active) {
-    document.querySelectorAll('.theme-option-btn').forEach(btn => btn.classList.remove('active'));
-    const el = document.getElementById(`theme-${active}`);
-    if (el) el.classList.add('active');
-  }
-  window.setTheme = (mode) => {
+    const icon = document.getElementById('theme-icon');
+    html.setAttribute('data-theme', mode);
+    meta.setAttribute('content', mode === 'dark' ? '#080810' : '#faf8f5');
+    if (icon) icon.textContent = mode === 'dark' ? '☀️' : '🌙';
     localStorage.setItem('tic_theme', mode);
-    applyTheme(mode); updateThemeButtons(mode); closeTheme();
+  }
+
+  window.toggleTheme = () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'light' ? 'dark' : 'light';
+    applyTheme(next);
   };
-  window.openTheme = () => {
-    updateThemeButtons(localStorage.getItem('tic_theme') || 'light');
-    document.getElementById('theme-modal').classList.add('active');
-  };
-  window.closeTheme = () => document.getElementById('theme-modal').classList.remove('active');
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    if ((localStorage.getItem('tic_theme') || 'light') === 'auto') applyTheme('auto');
-  });
+
+  function updateExitButtonVisibility() {
+    const btn = document.getElementById('btn-exit');
+    const isGameView = document.getElementById('view-game').classList.contains('active');
+    const isWaitView = document.getElementById('view-wait').classList.contains('active');
+    btn.classList.toggle('visible', isGameView || isWaitView);
+  }
 
   window.showView = (id) => {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+    updateExitButtonVisibility();
     updateReactionsButtonVisibility();
   };
   
@@ -770,9 +787,13 @@
     }
   };
 
-  // ✅ SOLO CIERRA CON LA X (NO CON FONDO DIFUMINADO)
   window.closeRematchModal = () => {
     document.getElementById('rematch-modal').classList.remove('active');
+  };
+
+  // ✅ CERRAR MODAL DE ERROR AL TOCAR FONDO
+  window.closeTurnError = () => {
+    document.getElementById('turn-error-overlay').classList.remove('active');
   };
 
   window.confirmLeave = () => { document.getElementById('confirm-modal').classList.add('active'); };
@@ -780,21 +801,17 @@
 
   window.toggleTurn = async () => {
     if (!gameData || !roomId) return;
-    const board = gameData.board || ["", "", "", "", "", "", "", "", ""];
+    const board = gameData.board || ["","","","","","","","",""];
     const hasMoves = board.some(c => c !== "");
     if (hasMoves || gameData.winner) {
       showModal("⚠️ Solo al inicio", "Este botón solo funciona antes de comenzar a jugar.", undefined, false);
       return;
     }
     const newTurn = gameData.turn === 'p1' ? 'p2' : 'p1';
-    try {
-      await updateDoc(doc(db, "games", roomId), { turn: newTurn });
-    } catch(e) {
-      showModal("Error", "No se pudo cambiar el turno.", undefined, false);
-    }
+    try { await updateDoc(doc(db, "games", roomId), { turn: newTurn }); }
+    catch(e) { showModal("Error", "No se pudo cambiar el turno.", undefined, false); }
   };
 
-  // ✅ REVANCHA: SOLICITUD DIRECTA Y LIMPIA
   window.requestRematch = async () => {
     if (!gameData || !roomId) return;
     try {
@@ -810,7 +827,7 @@
     if (!gameData || !roomId) return;
     try {
       await updateDoc(doc(db, "games", roomId), {
-        board: ["", "", "", "", "", "", "", "", ""],
+        board: ["","","","","","","","",""],
         turn: 'p1',
         winner: null,
         winCells: null,
@@ -856,9 +873,7 @@
       document.execCommand('copy');
       showModal("Codigo copiado", "El codigo ha sido copiado correctamente.", undefined, false);
       setTimeout(() => closeModal(), 1500);
-    } catch (err) { 
-      showModal("Error", "No se pudo copiar: " + text, undefined, false); 
-    }
+    } catch (err) { showModal("Error", "No se pudo copiar: " + text, undefined, false); }
     document.body.removeChild(textarea);
   }
 
@@ -870,19 +885,15 @@
     try {
       roomId = generateCode(); myPlayer = 1;
       await setDoc(doc(db, "games", roomId), {
-        p1: myName, p2: null, board: ["", "", "", "", "", "", "", "", ""], 
-        turn: 'p1',
-        winner: null, winCells: null,
+        p1: myName, p2: null, board: ["","","","","","","","",""], 
+        turn: 'p1', winner: null, winCells: null,
         status: "waiting", rematchReq: null, rematchStat: "none",
         created: serverTimestamp()
       });
       closeModal(); saveSession(roomId, myName, 1);
       document.getElementById('room-code').textContent = roomId;
       showView('view-wait'); listenGame();
-    } catch(e) { 
-      closeModal(); 
-      showModal("Error", "Fallo de conexion.", undefined, false); 
-    }
+    } catch(e) { closeModal(); showModal("Error", "Fallo de conexion.", undefined, false); }
   };
 
   window.joinRoom = async () => {
@@ -893,31 +904,15 @@
     await new Promise(resolve => setTimeout(resolve, 1500));
     try {
       const snap = await getDoc(doc(db, "games", code));
-      if (!snap.exists()) { 
-        closeModal(); 
-        return showModal("Error", "Sala no encontrada.", undefined, false); 
-      }
+      if (!snap.exists()) { closeModal(); return showModal("Error", "Sala no encontrada.", undefined, false); }
       const d = snap.data();
-      if (d.p2) { 
-        closeModal(); 
-        return showModal("Error", "Sala llena.", undefined, false); 
-      }
-      if (d.status !== "waiting") { 
-        closeModal(); 
-        return showModal("Error", "No disponible.", undefined, false); 
-      }
+      if (d.p2) { closeModal(); return showModal("Error", "Sala llena.", undefined, false); }
+      if (d.status !== "waiting") { closeModal(); return showModal("Error", "No disponible.", undefined, false); }
       roomId = code; myPlayer = 2;
-      await updateDoc(doc(db, "games", roomId), { 
-        p2: myName, 
-        status: "playing",
-        turn: 'p1'
-      });
+      await updateDoc(doc(db, "games", roomId), { p2: myName, status: "playing", turn: 'p1' });
       closeModal(); saveSession(roomId, myName, 2);
       showView('view-game'); listenGame();
-    } catch(e) { 
-      closeModal(); 
-      showModal("Error", "No se pudo unir.", undefined, false); 
-    }
+    } catch(e) { closeModal(); showModal("Error", "No se pudo unir.", undefined, false); }
   };
 
   function saveSession(id, name, p) { localStorage.setItem('tic_room', id); localStorage.setItem('tic_name', name); localStorage.setItem('tic_player', p); }
@@ -926,33 +921,23 @@
 
   function updateMandoButton() {
     const btn = document.getElementById('btn-mando');
-    if (!gameData || !gameData.p2 || gameData.status !== "playing") {
-      btn.classList.add('hidden');
-      return;
-    }
-    const board = gameData.board || ["", "", "", "", "", "", "", "", ""];
+    if (!gameData || !gameData.p2 || gameData.status !== "playing") { btn.classList.add('hidden'); return; }
+    const board = gameData.board || ["","","","","","","","",""];
     const hasMoves = board.some(c => c !== "");
     if (hasMoves || gameData.winner) {
-      btn.classList.remove('hidden');
-      btn.disabled = true;
-      btn.innerHTML = '🔒 Partida en curso';
-      btn.classList.remove('active');
+      btn.classList.remove('hidden'); btn.disabled = true;
+      btn.innerHTML = '🔒 Partida en curso'; btn.classList.remove('active');
       return;
     }
-    btn.classList.remove('hidden');
-    btn.disabled = false;
+    btn.classList.remove('hidden'); btn.disabled = false;
     const isMyTurn = gameData.turn === (myPlayer===1 ? 'p1' : 'p2');
     btn.classList.toggle('active', isMyTurn);
     if (gameData.turn === 'p1') {
-      const opponentName = gameData.p2 || "el otro";
-      btn.innerHTML = myPlayer === 1 
-        ? `🔄 Cambiar para que ${opponentName} empiece` 
-        : '🔄 Cambiar para que tú empieces';
+      const opp = gameData.p2 || "el otro";
+      btn.innerHTML = myPlayer === 1 ? `🔄 Cambiar para que ${opp} empiece` : '🔄 Cambiar para que tú empieces';
     } else {
-      const opponentName = gameData.p1 || "el otro";
-      btn.innerHTML = myPlayer === 2 
-        ? `🔄 Cambiar para que ${opponentName} empiece` 
-        : '🔄 Cambiar para que tú empieces';
+      const opp = gameData.p1 || "el otro";
+      btn.innerHTML = myPlayer === 2 ? `🔄 Cambiar para que ${opp} empiece` : '🔄 Cambiar para que tú empieces';
     }
   }
 
@@ -964,7 +949,6 @@
     
     unsub = onSnapshot(doc(db, "games", roomId), (snap) => {
       if (!snap.exists()) {
-        // 🚪 Solo mostrar modal de "oponente salió" si NO soy yo el que está saliendo
         if (!isLeaving && (document.getElementById('view-game').classList.contains('active') || 
             document.getElementById('view-wait').classList.contains('active'))) {
           showOpponentLeftModal();
@@ -973,17 +957,11 @@
       }
       
       gameData = snap.data();
-      
       if (gameData.board) {
         gameData.board = Object.values(gameData.board);
-        if (gameData.board.length < 9) {
-          gameData.board = gameData.board.concat(Array(9 - gameData.board.length).fill(""));
-        }
-      } else {
-        gameData.board = ["", "", "", "", "", "", "", "", ""];
-      }
+        if (gameData.board.length < 9) gameData.board = gameData.board.concat(Array(9 - gameData.board.length).fill(""));
+      } else { gameData.board = ["","","","","","","","",""]; }
 
-      // Detectar nueva partida (revancha)
       if (previousWinner !== null && gameData.winner === null) {
         resultOverlayShown = false;
         closeResultOverlay();
@@ -1007,21 +985,18 @@
     });
   }
 
-  // ✅ REVANCHA: LÓGICA LIMPIA Y REUTILIZABLE PARA CADA PARTIDA
   function handleRematchUI() {
     if (!gameData) return;
     const modal = document.getElementById('rematch-modal');
     const reqContent = document.getElementById('rematch-req-content');
     const accContent = document.getElementById('rematch-accept-content');
 
-    // Si no hay solicitud activa o fue rechazada/reseteada, ocultar y resetear
     if (!gameData.rematchReq || gameData.rematchStat === "none") {
       modal.classList.remove('active');
       rematchShown = false;
       return;
     }
 
-    // YO solicité
     if (gameData.rematchReq === myPlayer && gameData.rematchStat === "requesting") {
       reqContent.classList.remove('hidden');
       accContent.classList.add('hidden');
@@ -1029,7 +1004,6 @@
       return;
     }
 
-    // EL OTRO solicitó
     if (gameData.rematchReq !== myPlayer && gameData.rematchStat === "requesting") {
       if (!rematchShown) {
         rematchShown = true;
@@ -1042,7 +1016,6 @@
       return;
     }
 
-    // Si fue aceptada o rechazada, cerrar y resetear
     if (gameData.rematchStat === "accepted" || gameData.rematchStat === "rejected") {
       modal.classList.remove('active');
       rematchShown = false;
@@ -1052,9 +1025,8 @@
   function handleResultUI() {
     if (!gameData || !gameData.winner) return;
     let resultType;
-    if (gameData.winner === 'draw') {
-      resultType = 'draw';
-    } else {
+    if (gameData.winner === 'draw') { resultType = 'draw'; }
+    else {
       const myTurnId = (myPlayer === 1) ? 'p1' : 'p2';
       resultType = (gameData.winner === myTurnId) ? 'win' : 'lose';
     }
@@ -1068,7 +1040,7 @@
     const rematchBtn = document.getElementById('btn-rematch');
     const myTurnId = (myPlayer === 1) ? 'p1' : 'p2';
     const isMyTurn = (gameData.turn === myTurnId) && !gameData.winner;
-    const board = gameData.board || ["", "", "", "", "", "", "", "", ""];
+    const board = gameData.board || ["","","","","","","","",""];
 
     document.getElementById('card-p1').classList.remove('active');
     document.getElementById('card-p2').classList.remove('active');
@@ -1088,14 +1060,14 @@
       if (cellVal === 'X') cell.classList.add('x', 'taken');
       else if (cellVal === 'O') cell.classList.add('o', 'taken');
       if (gameData.winCells && gameData.winCells.includes(i)) cell.classList.add('winner');
-      if (!cellVal && isMyTurn && !gameData.winner) cell.addEventListener('click', () => handleCellClick(i));
+      // ✅ Permitir clic siempre para detectar turno, la validación se hace en handleCellClick
+      cell.addEventListener('click', () => handleCellClick(i));
       boardEl.appendChild(cell);
     }
 
     statusEl.className = 'status';
-    if (!gameData.turn) {
-      statusEl.textContent = "Preparando partida...";
-    } else if (gameData.winner) {
+    if (!gameData.turn) { statusEl.textContent = "Preparando partida..."; }
+    else if (gameData.winner) {
       statusEl.classList.add('finished');
       if (gameData.winner === 'draw') statusEl.textContent = "¡Empate!";
       else {
@@ -1120,8 +1092,16 @@
     if (!gameData || !roomId) return;
     if (gameData.winner) return;
     const myTurnId = (myPlayer === 1) ? 'p1' : 'p2';
-    if (gameData.turn !== myTurnId) return;
-    const board = gameData.board || ["", "", "", "", "", "", "", "", ""];
+    
+    // ✅ VALIDAR TURNO Y MOSTRAR MODAL SI NO LE TOCA
+    if (gameData.turn !== myTurnId) {
+      const oppName = myPlayer === 1 ? (gameData.p2 || "el otro jugador") : (gameData.p1 || "el otro jugador");
+      document.getElementById('turn-error-text').textContent = `Hey no es tu turno, ahora le toca a ${oppName}`;
+      document.getElementById('turn-error-overlay').classList.add('active');
+      return;
+    }
+    
+    const board = gameData.board || ["","","","","","","","",""];
     if (board[index] !== "") return;
     
     playMovidaSound();
@@ -1142,24 +1122,16 @@
     } else if (isDraw) {
       updateData.winner = 'draw';
       updateData.status = "finished";
-    } else {
-      updateData.turn = opponentTurn;
-    }
+    } else { updateData.turn = opponentTurn; }
     
-    try {
-      await updateDoc(doc(db, "games", roomId), updateData);
-    } catch(e) {
-      console.error("Error al jugar:", e);
-      showModal("Error", "No se pudo registrar tu jugada. Intenta de nuevo.", undefined, false);
-    }
+    try { await updateDoc(doc(db, "games", roomId), updateData); }
+    catch(e) { console.error("Error al jugar:", e); showModal("Error", "No se pudo registrar tu jugada. Intenta de nuevo.", undefined, false); }
   }
 
   function checkWin(board) {
     const patterns = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
     for (const [a, b, c] of patterns) {
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return board[a] === 'X' ? 'p1' : 'p2';
-      }
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) return board[a] === 'X' ? 'p1' : 'p2';
     }
     return null;
   }
@@ -1167,16 +1139,13 @@
   function getWinCells(board) {
     const patterns = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
     for (const [a, b, c] of patterns) {
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return [a, b, c];
-      }
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) return [a, b, c];
     }
     return [];
   }
 
   window.toggleEmojiPicker = () => {
-    const picker = document.getElementById('emoji-picker');
-    picker.classList.toggle('active');
+    document.getElementById('emoji-picker').classList.toggle('active');
   };
 
   window.sendReaction = async (em) => {
@@ -1194,9 +1163,7 @@
 
   window.dismissReaction = async (e) => {
     e.stopPropagation();
-    if (gameData && roomId) {
-      try { await updateDoc(doc(db, "games", roomId), { reaction: null }); } catch(e) {}
-    }
+    if (gameData && roomId) { try { await updateDoc(doc(db, "games", roomId), { reaction: null }); } catch(e) {} }
   };
 
   function updateReactionUI(r) {
@@ -1226,30 +1193,19 @@
     bubble.releasePointerCapture(e.pointerId);
     if (gameData && roomId) {
       try {
-        await updateDoc(doc(db, "games", roomId), {
-          "reaction.x": parseInt(bubble.style.left),
-          "reaction.y": parseInt(bubble.style.top)
-        });
+        await updateDoc(doc(db, "games", roomId), { "reaction.x": parseInt(bubble.style.left), "reaction.y": parseInt(bubble.style.top) });
       } catch(e) {}
     }
   });
 
-  // === MODAL OPONENTE SALIÓ (solo para el que NO salió) ===
   function showOpponentLeftModal() {
     if (unsub) unsub();
     clearSession();
-    
     const leftName = myPlayer === 1 ? (gameData?.p2 || "Oponente") : (gameData?.p1 || "Oponente");
     document.getElementById('opponent-left-title').textContent = `${leftName} salió`;
     document.getElementById('opponent-left-text').textContent = "Tu oponente abandonó la partida. La sala se cerrará automáticamente.";
-    
     document.getElementById('opponent-left-modal').classList.add('active');
-    
-    roomId = null;
-    gameData = null;
-    rematchShown = false;
-    resultOverlayShown = false;
-    previousWinner = null;
+    roomId = null; gameData = null; rematchShown = false; resultOverlayShown = false; previousWinner = null;
     document.getElementById('bubble').style.display = 'none';
     document.getElementById('emoji-picker').classList.remove('active');
     document.getElementById('rematch-modal').classList.remove('active');
@@ -1264,36 +1220,28 @@
     document.getElementById('code-join').value = '';
   };
 
-  // === SALIR DE LA PARTIDA - MUESTRA "SALIENDO..." Y SALE ===
   window.leaveGame = async () => {
     document.getElementById('confirm-modal').classList.remove('active');
-    isLeaving = true; // 🚪 Marcar que soy yo el que sale
+    isLeaving = true;
     
     showLoading("Saliendo...", "Desconectando de la sala...", false);
     await new Promise(resolve => setTimeout(resolve, 800));
 
     if (unsub) unsub();
     clearSession();
-    if (roomId) {
-      try { await deleteDoc(doc(db, "games", roomId)); } catch(e) {}
-    }
-    closeModal();
-    closeResultOverlay();
+    if (roomId) { try { await deleteDoc(doc(db, "games", roomId)); } catch(e) {} }
+    closeModal(); closeResultOverlay();
     
     showView('view-menu');
     document.getElementById('name-create').value = '';
     document.getElementById('name-join').value = '';
     document.getElementById('code-join').value = '';
-    gameData = null;
-    roomId = null;
-    rematchShown = false;
-    resultOverlayShown = false;
-    previousWinner = null;
+    gameData = null; roomId = null; rematchShown = false; resultOverlayShown = false; previousWinner = null;
     document.getElementById('bubble').style.display = 'none';
     document.getElementById('emoji-picker').classList.remove('active');
     document.getElementById('rematch-modal').classList.remove('active');
     
-    isLeaving = false; // 🚪 Resetear flag
+    isLeaving = false;
   };
 
   (function init(){
@@ -1301,6 +1249,7 @@
     document.getElementById('board').innerHTML = Array(9).fill('<div class="cell"></div>').join('');
     if(loadSession()){ showView('view-game'); listenGame(); }
     else { showView('view-menu'); }
+    updateExitButtonVisibility();
     updateReactionsButtonVisibility();
   })();
 </script>
