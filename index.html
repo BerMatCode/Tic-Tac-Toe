@@ -663,16 +663,16 @@
     const overlay = document.getElementById('result-overlay');
     const textEl = document.getElementById('result-text');
     if (resultType === 'win') {
-      textEl.textContent = '¡Ganaste! 🎉🎊';
+      textEl.textContent = '¡Ganaste!🎉🎊';
       textEl.className = 'result-text result-win';
       playVictoriaSound();
       createConfetti();
     } else if (resultType === 'lose') {
-      textEl.textContent = 'Perdiste 😔';
+      textEl.textContent = 'Perdiste😔';
       textEl.className = 'result-text result-lose';
       playPerdidoSound();
     } else if (resultType === 'draw') {
-      textEl.textContent = '¡Empate! 🤝';
+      textEl.textContent = '¡Empate!🤝';
       textEl.className = 'result-text result-draw';
       playEmpateSound();
     }
