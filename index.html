@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="theme-color" content="#faf8f5" id="theme-color-meta"/>
+  <meta name="theme-color" content="#faf8f5"/>
   <title>Tic-Tac-Toe-BerMatCode</title>
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* TEMA CLARO */
+      /* TEMA CLARO - ÚNICO */
       --bg: #f5f0eb;
       --bg-gradient: linear-gradient(145deg, #f5f0eb 0%, #e8e0d8 100%);
       --card: #ffffff;
@@ -28,27 +28,6 @@
       --radius: 18px;
       --cell-bg: #fdfbf9;
       --cell-hover: rgba(232,106,51,0.08);
-    }
-
-    [data-theme="dark"] {
-      /* TEMA OSCURO */
-      --bg: #080810;
-      --bg-gradient: linear-gradient(145deg, #080810 0%, #101020 100%);
-      --card: #141428;
-      --card-border: #2a2a4a;
-      --text: #e8e6f0;
-      --text-muted: #7a7a9a;
-      --border: #2a2a4a;
-      --border-strong: #3a3a5e;
-      --primary: #00d4ff;
-      --primary-glow: rgba(0,212,255,0.4);
-      --secondary: #a855f7;
-      --success: #22c55e;
-      --danger: #ff3b5c;
-      --shadow: 0 10px 40px rgba(0,0,0,0.5);
-      --glow: 0 4px 24px rgba(0,212,255,0.3);
-      --cell-bg: #1a1a35;
-      --cell-hover: rgba(0,212,255,0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -73,6 +52,11 @@
       font-size: 2.2rem; font-weight: 700; letter-spacing: 1px;
       text-shadow: 0 2px 12px var(--primary-glow);
       transition: color 0.4s ease, text-shadow 0.4s ease;
+      cursor: pointer;
+    }
+    h1:hover {
+      transform: scale(1.03);
+      text-shadow: 0 4px 20px var(--primary-glow);
     }
 
     .view { display: none; width: 100%; }
@@ -166,8 +150,8 @@
     .board {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
       margin: 0 auto; width: 100%; max-width: 270px;
+      /* ✅ QUITADO pointer-events: none para permitir clicks siempre */
     }
-    .board.locked { pointer-events: none; }
     
     .cell {
       aspect-ratio: 1; 
@@ -179,6 +163,8 @@
       color: var(--text); font-family: 'Patrick Hand', cursive;
       user-select: none;
       box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
     }
     .cell:hover:not(.taken) { 
       background: var(--cell-hover); 
@@ -188,11 +174,8 @@
     }
     
     /* ✅ COLORES DISTINTIVOS PARA X y O */
-    .cell.x { color: #111827; font-size: 44px; } /* Negro oscuro en claro */
-    .cell.o { color: #dc2626; font-size: 44px; } /* Rojo vibrante en claro */
-    
-    [data-theme="dark"] .cell.x { color: #22d3ee; } /* Cian neón en oscuro */
-    [data-theme="dark"] .cell.o { color: #f472b6; } /* Rosa neón en oscuro */
+    .cell.x { color: #111827; font-size: 44px; }
+    .cell.o { color: #dc2626; font-size: 44px; }
     
     .cell.taken { cursor: default; }
     .cell.winner { background: var(--success); color: white; border-color: var(--success); box-shadow: 0 0 30px rgba(34,197,94,0.6); }
@@ -201,6 +184,20 @@
       0% { transform: scale(0.8); opacity: 0; }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* ✅ EFECTO VISUAL DE ERROR CUANDO NO ES TU TURNO */
+    .cell.error-flash {
+      animation: errorFlash 0.4s ease;
+      border-color: var(--danger) !important;
+      box-shadow: 0 0 0 4px rgba(230,57,70,0.4), 0 6px 20px rgba(230,57,70,0.3) !important;
+    }
+    @keyframes errorFlash {
+      0% { transform: scale(1); background: var(--cell-bg); }
+      25% { transform: scale(0.95); background: rgba(230,57,70,0.15); }
+      50% { transform: scale(1.02); background: rgba(230,57,70,0.25); }
+      75% { transform: scale(0.98); background: rgba(230,57,70,0.15); }
+      100% { transform: scale(1); background: var(--cell-bg); }
     }
 
     /* BOTÓN DE SALIDA - SOLO VISIBLE EN JUEGO */
@@ -242,17 +239,6 @@
     .btn-float:hover { transform: scale(1.12); }
     .btn-float:active { transform: scale(0.95); }
     .btn-reactions { left: 20px; }
-
-    /* BOTÓN DE TEMA - TOGGLE SIMPLE */
-    .btn-theme {
-      position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%;
-      background: var(--card); display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow); cursor: pointer; border: 2px solid var(--border-strong);
-      padding: 0; margin: 0; font-size: 24px; transition: transform 0.3s, background 0.4s, border-color 0.4s; z-index: 95;
-    }
-    .btn-theme:hover { transform: scale(1.15) rotate(20deg); }
-    .btn-theme:active { transform: scale(0.95); }
-    .btn-theme .theme-icon { transition: transform 0.3s; }
 
     .emoji-picker {
       position: fixed; bottom: 88px; left: 20px;
@@ -347,11 +333,6 @@
       animation: modalBounce 0.35s ease;
       position: relative;
     }
-    [data-theme="dark"] .turn-error-content {
-      background: linear-gradient(145deg, #200a15, #2a1020);
-      border-color: #ff3b5c;
-      box-shadow: 0 15px 45px rgba(255,59,92,0.45);
-    }
     .turn-error-icon { font-size: 44px; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
     .turn-error-title { 
       font-size: 20px; font-weight: 700; 
@@ -360,7 +341,6 @@
       margin-bottom: 8px; 
     }
     .turn-error-text { font-size: 15px; color: #555; line-height: 1.4; font-weight: 500; }
-    [data-theme="dark"] .turn-error-text { color: #c0c0d0; }
     @keyframes modalBounce {
       0% { transform: scale(0.85); opacity: 0; }
       50% { transform: scale(1.03); }
@@ -455,6 +435,22 @@
 <audio id="audio-victoria" preload="auto">
   <source src="https://github.com/BerMatCode/Tic-Tac-Toe/raw/refs/heads/main/assets/Victoria%20audio.mp3" type="audio/mpeg">
 </audio>
+<!-- ✅ NUEVOS AUDIOS AGREGADOS -->
+<audio id="audio-notificacion" preload="auto">
+  <source src="https://raw.githubusercontent.com/BerMatCode/Tic-Tac-Toe/main/assets/Notificación.mp3" type="audio/mpeg">
+</audio>
+<audio id="audio-incorrecto" preload="auto">
+  <source src="https://raw.githubusercontent.com/BerMatCode/Tic-Tac-Toe/main/assets/incorrecto%20o%20falla.mp3" type="audio/mpeg">
+</audio>
+<audio id="audio-inicio" preload="auto">
+  <source src="https://raw.githubusercontent.com/BerMatCode/Tic-Tac-Toe/main/assets/inicio.mp3" type="audio/mpeg">
+</audio>
+<audio id="audio-messenger" preload="auto">
+  <source src="https://raw.githubusercontent.com/BerMatCode/Tic-Tac-Toe/main/assets/messenger%20notificación.mp3" type="audio/mpeg">
+</audio>
+<audio id="audio-sonrisas" preload="auto">
+  <source src="https://raw.githubusercontent.com/BerMatCode/Tic-Tac-Toe/main/assets/sonrisas.mp3" type="audio/mpeg">
+</audio>
 
 <!-- OVERLAY DE RESULTADO -->
 <div id="result-overlay" class="result-overlay">
@@ -464,13 +460,8 @@
 <!-- BOTÓN DE SALIDA - SOLO EN PANTALLA DE JUEGO -->
 <button class="btn-exit" id="btn-exit" onclick="confirmLeave()" title="Salir de la partida"></button>
 
-<!-- BOTÓN DE TEMA - TOGGLE SIMPLE -->
-<button class="btn-theme" id="btn-theme" onclick="toggleTheme()" title="Cambiar tema">
-  <span class="theme-icon" id="theme-icon">🌙</span>
-</button>
-
 <div class="app-container">
-  <h1>Tres en Raya</h1>
+  <h1 id="game-title">Tic Tac Toe</h1>
 
   <div id="view-menu" class="view active">
     <button onclick="showView('view-create')">Crear Sala Nueva</button>
@@ -515,7 +506,7 @@
     </button>
     
     <div id="status" class="status">Conectando...</div>
-    <div id="board" class="board locked"></div>
+    <div id="board" class="board"></div>
     <button id="btn-rematch" onclick="requestRematch()" class="hidden success">Solicitar Revancha</button>
   </div>
 </div>
@@ -525,7 +516,7 @@
 
 <div id="emoji-picker" class="emoji-picker">
   <button class="emoji-btn" onclick="sendReaction('❤️')">❤️</button>
-  <button class="emoji-btn" onclick="sendReaction('👍')">👍</button>
+  <button class="emoji-btn" onclick="sendReaction('😁')">😁</button>
   <button class="emoji-btn" onclick="sendReaction('😂')">😂</button>
   <button class="emoji-btn" onclick="sendReaction('😮')">😮</button>
   <button class="emoji-btn" onclick="sendReaction('😢')">😢</button>
@@ -554,7 +545,7 @@
     <div class="modal-text">Si sales perderas la partida actual y tendras que crear o unirte a otra sala.</div>
     <div class="modal-buttons">
       <button class="danger" onclick="leaveGame()">Salir</button>
-      <button class="success" onclick="cancelLeave()">Quedarme</button>
+      <button class="success" onclick="cancelLeave()">Cancelar</button>
     </div>
   </div>
 </div>
@@ -628,14 +619,20 @@
   let resultOverlayShown = false;
   let previousWinner = null;
   let isLeaving = false;
+  let lastReactionTimestamp = 0;
 
   const laughAudio = document.getElementById('laugh-audio');
   const audioEmpate = document.getElementById('audio-empate');
   const audioMovida = document.getElementById('audio-movida');
   const audioPerdido = document.getElementById('audio-perdido');
   const audioVictoria = document.getElementById('audio-victoria');
+  const audioNotificacion = document.getElementById('audio-notificacion');
+  const audioIncorrecto = document.getElementById('audio-incorrecto');
+  const audioInicio = document.getElementById('audio-inicio');
+  const audioMessenger = document.getElementById('audio-messenger');
+  const audioSonrisas = document.getElementById('audio-sonrisas');
   
-  [laughAudio, audioEmpate, audioMovida, audioPerdido, audioVictoria].forEach(a => {
+  [laughAudio, audioEmpate, audioMovida, audioPerdido, audioVictoria, audioNotificacion, audioIncorrecto, audioInicio, audioMessenger, audioSonrisas].forEach(a => {
     if (a) a.volume = 0.7;
   });
 
@@ -652,6 +649,11 @@
     setTimeout(() => { laughAudioPlayed = false; }, 2000);
   }
 
+  function playNotificacionSound() { safePlay(audioNotificacion); }
+  function playIncorrectoSound() { safePlay(audioIncorrecto); }
+  function playInicioSound() { safePlay(audioInicio); }
+  function playMessengerSound() { safePlay(audioMessenger); }
+  function playSonrisasSound() { safePlay(audioSonrisas); }
   function playMovidaSound() { safePlay(audioMovida); }
   function playEmpateSound() { safePlay(audioEmpate); }
   function playPerdidoSound() { safePlay(audioPerdido); }
@@ -701,27 +703,6 @@
       }, i * 40);
     }
   }
-
-  function initTheme() {
-    const saved = localStorage.getItem('tic_theme') || 'light';
-    applyTheme(saved);
-  }
-
-  function applyTheme(mode) {
-    const html = document.documentElement;
-    const meta = document.getElementById('theme-color-meta');
-    const icon = document.getElementById('theme-icon');
-    html.setAttribute('data-theme', mode);
-    meta.setAttribute('content', mode === 'dark' ? '#080810' : '#faf8f5');
-    if (icon) icon.textContent = mode === 'dark' ? '☀️' : '🌙';
-    localStorage.setItem('tic_theme', mode);
-  }
-
-  window.toggleTheme = () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'light' ? 'dark' : 'light';
-    applyTheme(next);
-  };
 
   function updateExitButtonVisibility() {
     const btn = document.getElementById('btn-exit');
@@ -791,7 +772,6 @@
     document.getElementById('rematch-modal').classList.remove('active');
   };
 
-  // ✅ CERRAR MODAL DE ERROR AL TOCAR FONDO
   window.closeTurnError = () => {
     document.getElementById('turn-error-overlay').classList.remove('active');
   };
@@ -819,6 +799,7 @@
         rematchReq: myPlayer,
         rematchStat: "requesting"
       });
+      playNotificacionSound();
     } catch(e) {}
   };
 
@@ -879,7 +860,7 @@
 
   window.createRoom = async () => {
     myName = document.getElementById('name-create').value.trim();
-    if (!myName) return showModal("Atencion", "Ingresa tu nombre.", undefined, false);
+    if (!myName) return showModal("🤖ATENCIÓN🤖", "Ingresa tu nombre, para poder crear la sala en la base de datos de AnthZz Berrocal.", undefined, false);
     showLoading("Creando sala", "Generando codigo unico...", false);
     await new Promise(resolve => setTimeout(resolve, 1500));
     try {
@@ -899,20 +880,44 @@
   window.joinRoom = async () => {
     myName = document.getElementById('name-join').value.trim();
     const code = document.getElementById('code-join').value.trim().toUpperCase();
-    if (!myName || !code || code.length !== 6) return showModal("Atencion", "Datos invalidos.", undefined, false);
+    if (!myName || !code || code.length !== 6) {
+      playIncorrectoSound();
+      return showModal("🤖ATENCIÓN🤖", "Datos inválidos tienes que ingresar el código de la sala otorgado por AnthZz Berrocal", undefined, false);
+    }
     showLoading("Uniendote", "Conectando a la sala...", false);
     await new Promise(resolve => setTimeout(resolve, 1500));
     try {
       const snap = await getDoc(doc(db, "games", code));
-      if (!snap.exists()) { closeModal(); return showModal("Error", "Sala no encontrada.", undefined, false); }
+      if (!snap.exists()) { 
+        closeModal(); 
+        playIncorrectoSound();
+        return showModal("Error", "Sala no encontrada.", undefined, false); 
+      }
       const d = snap.data();
-      if (d.p2) { closeModal(); return showModal("Error", "Sala llena.", undefined, false); }
-      if (d.status !== "waiting") { closeModal(); return showModal("Error", "No disponible.", undefined, false); }
+      if (d.p2) { 
+        closeModal(); 
+        playIncorrectoSound();
+        return showModal("Error", "Sala llena.", undefined, false); 
+      }
+      if (d.status !== "waiting") { 
+        closeModal(); 
+        playIncorrectoSound();
+        return showModal("Error", "No disponible.", undefined, false); 
+      }
       roomId = code; myPlayer = 2;
       await updateDoc(doc(db, "games", roomId), { p2: myName, status: "playing", turn: 'p1' });
       closeModal(); saveSession(roomId, myName, 2);
-      showView('view-game'); listenGame();
-    } catch(e) { closeModal(); showModal("Error", "No se pudo unir.", undefined, false); }
+      showView('view-game'); 
+      if (!window.hasPlayedInicio) {
+        playInicioSound();
+        window.hasPlayedInicio = true;
+      }
+      listenGame();
+    } catch(e) { 
+      closeModal(); 
+      playIncorrectoSound();
+      showModal("Error", "No se pudo unir.", undefined, false); 
+    }
   };
 
   function saveSession(id, name, p) { localStorage.setItem('tic_room', id); localStorage.setItem('tic_name', name); localStorage.setItem('tic_player', p); }
@@ -926,7 +931,7 @@
     const hasMoves = board.some(c => c !== "");
     if (hasMoves || gameData.winner) {
       btn.classList.remove('hidden'); btn.disabled = true;
-      btn.innerHTML = '🔒 Partida en curso'; btn.classList.remove('active');
+      btn.innerHTML = '🔒Partida en Juego'; btn.classList.remove('active');
       return;
     }
     btn.classList.remove('hidden'); btn.disabled = false;
@@ -970,6 +975,10 @@
 
       if (gameData.status === "playing" && !document.getElementById('view-game').classList.contains('active')) {
         showView('view-game');
+        if (!window.hasPlayedInicio) {
+          playInicioSound();
+          window.hasPlayedInicio = true;
+        }
       }
 
       document.getElementById('name-p1').textContent = gameData.p1;
@@ -1011,6 +1020,7 @@
         reqContent.classList.add('hidden');
         accContent.classList.remove('hidden');
         document.getElementById('rematch-accept-text').textContent = `${opponentName} quiere jugar otra vez. ¿Aceptas?`;
+        playNotificacionSound();
       }
       modal.classList.add('active');
       return;
@@ -1050,7 +1060,7 @@
     }
 
     boardEl.innerHTML = '';
-    boardEl.classList.toggle('locked', !isMyTurn);
+    // ✅ QUITADO: boardEl.classList.toggle('locked', !isMyTurn); para permitir clicks siempre
 
     for (let i = 0; i < 9; i++) {
       const cellVal = board[i] || "";
@@ -1060,8 +1070,8 @@
       if (cellVal === 'X') cell.classList.add('x', 'taken');
       else if (cellVal === 'O') cell.classList.add('o', 'taken');
       if (gameData.winCells && gameData.winCells.includes(i)) cell.classList.add('winner');
-      // ✅ Permitir clic siempre para detectar turno, la validación se hace en handleCellClick
-      cell.addEventListener('click', () => handleCellClick(i));
+      // ✅ Permitir clic siempre - la validación se hace en handleCellClick
+      cell.addEventListener('click', () => handleCellClick(i, cell));
       boardEl.appendChild(cell);
     }
 
@@ -1079,7 +1089,6 @@
       statusEl.classList.add('my-turn');
       statusEl.textContent = 'Tu turno😁';
       rematchBtn.classList.add('hidden');
-      boardEl.classList.remove('locked');
     } else {
       statusEl.classList.add('their-turn');
       const oppName = myPlayer === 1 ? gameData.p2 : gameData.p1;
@@ -1088,22 +1097,37 @@
     }
   }
 
-  async function handleCellClick(index) {
+  // ✅ FUNCIÓN MEJORADA: permite remarcar visualmente antes de mostrar modal
+  async function handleCellClick(index, cellElement) {
     if (!gameData || !roomId) return;
     if (gameData.winner) return;
-    const myTurnId = (myPlayer === 1) ? 'p1' : 'p2';
-    
-    // ✅ VALIDAR TURNO Y MOSTRAR MODAL SI NO LE TOCA
-    if (gameData.turn !== myTurnId) {
-      const oppName = myPlayer === 1 ? (gameData.p2 || "el otro jugador") : (gameData.p1 || "el otro jugador");
-      document.getElementById('turn-error-text').textContent = `Hey no es tu turno, ahora le toca a ${oppName}`;
-      document.getElementById('turn-error-overlay').classList.add('active');
-      return;
-    }
     
     const board = gameData.board || ["","","","","","","","",""];
+    // Si la casilla ya está ocupada, no hacer nada
     if (board[index] !== "") return;
     
+    // ✅ 1. EFECTO VISUAL INMEDIATO (remarcar la casilla)
+    if (cellElement) {
+      cellElement.classList.add('error-flash');
+      // Quitar la clase después de la animación
+      setTimeout(() => cellElement.classList.remove('error-flash'), 400);
+    }
+    
+    // ✅ 2. VALIDAR TURNO DESPUÉS DEL FEEDBACK VISUAL
+    const myTurnId = (myPlayer === 1) ? 'p1' : 'p2';
+    const currentTurn = gameData?.turn;
+    
+    if (!currentTurn || currentTurn !== myTurnId) {
+      // ✅ 3. SONAR AUDIO DE ERROR
+      playIncorrectoSound();
+      // ✅ 4. MOSTRAR MODAL DE ADVERTENCIA
+      const oppName = myPlayer === 1 ? (gameData?.p2 || "el otro jugador") : (gameData?.p1 || "el otro jugador");
+      document.getElementById('turn-error-text').textContent = `Hey no es tu turno, ahora le toca a ${oppName}`;
+      document.getElementById('turn-error-overlay').classList.add('active');
+      return; // No continuar con la jugada
+    }
+    
+    // ✅ Si ES mi turno: proceder con la jugada normal
     playMovidaSound();
     
     const mySymbol = myPlayer === 1 ? 'X' : 'O';
@@ -1125,7 +1149,11 @@
     } else { updateData.turn = opponentTurn; }
     
     try { await updateDoc(doc(db, "games", roomId), updateData); }
-    catch(e) { console.error("Error al jugar:", e); showModal("Error", "No se pudo registrar tu jugada. Intenta de nuevo.", undefined, false); }
+    catch(e) { 
+      console.error("Error al jugar:", e); 
+      playIncorrectoSound();
+      showModal("Error", "No se pudo registrar tu jugada. Intenta de nuevo.", undefined, false); 
+    }
   }
 
   function checkWin(board) {
@@ -1151,12 +1179,24 @@
   window.sendReaction = async (em) => {
     if (!gameData || !roomId) return;
     document.getElementById('emoji-picker').classList.remove('active');
+    
     if (em === '😂') playLaughSound();
+    if (em === '😁') playSonrisasSound();
+    
     const cx = Math.random() * (window.innerWidth - 100);
     const cy = Math.random() * (window.innerHeight - 100);
+    const now = Date.now();
+    
     try {
       await updateDoc(doc(db, "games", roomId), {
-        reaction: { emoji: em, sender: myName || "Jugador", senderId: myPlayer || 1, x: Math.max(10, cx), y: Math.max(10, cy) }
+        reaction: { 
+          emoji: em, 
+          sender: myName || "Jugador", 
+          senderId: myPlayer || 1, 
+          x: Math.max(10, cx), 
+          y: Math.max(10, cy),
+          timestamp: now
+        }
       });
     } catch(e) { console.error("Error enviando reaccion:", e); }
   };
@@ -1169,7 +1209,13 @@
   function updateReactionUI(r) {
     const bub = document.getElementById('bubble');
     if (!r || !r.emoji) { bub.style.display = 'none'; return; }
-    if (r.emoji === '😂' && r.senderId !== myPlayer) playLaughSound();
+    
+    if (r.senderId !== myPlayer && r.timestamp && r.timestamp > lastReactionTimestamp) {
+      lastReactionTimestamp = r.timestamp;
+      if (r.emoji === '😂') playLaughSound();
+      if (r.emoji === '😁') playSonrisasSound();
+    }
+    
     bub.style.display = 'flex';
     document.getElementById('b-emoji').textContent = r.emoji;
     document.getElementById('b-sender').textContent = r.sender || "Jugador";
@@ -1244,10 +1290,17 @@
     isLeaving = false;
   };
 
+  document.getElementById('game-title').addEventListener('click', () => {
+    playMessengerSound();
+  });
+
   (function init(){
-    initTheme();
+    window.hasPlayedInicio = false;
     document.getElementById('board').innerHTML = Array(9).fill('<div class="cell"></div>').join('');
-    if(loadSession()){ showView('view-game'); listenGame(); }
+    if(loadSession()){ 
+      showView('view-game'); 
+      listenGame(); 
+    }
     else { showView('view-menu'); }
     updateExitButtonVisibility();
     updateReactionsButtonVisibility();
