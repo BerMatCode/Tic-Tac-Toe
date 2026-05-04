@@ -526,7 +526,7 @@
 <!-- ✅ MODAL ERROR DE TURNO -->
 <div id="turn-error-overlay" class="turn-error-overlay" onclick="closeTurnError()">
   <div class="turn-error-content" onclick="event.stopPropagation()">
-    <div class="turn-error-icon">😡</div>
+    <div class="turn-error-icon">⚠️</div>
     <div class="turn-error-title">¡Espera!</div>
     <div class="turn-error-text" id="turn-error-text">No es tu turno...</div>
   </div>
@@ -1095,7 +1095,7 @@
     showLoading("Saliendo...", "Desconectando de la sala...", false);
     await new Promise(r => setTimeout(r, 800));
     if (unsub) unsub(); clearSession();
-    if (roomId) { try { await deleteDoc(doc(db, "games", roomId)); } catch(e) {} }
+    if (roomId) { try { await (doc(db, "games", roomId)); } catch(e) {} }
     closeModal(); closeResultOverlay();
     showView('view-menu');
     document.getElementById('name-create').value = '';
