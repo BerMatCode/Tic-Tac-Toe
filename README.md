@@ -1,183 +1,161 @@
-<div align="center">
+<div align="center"><img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=45&duration=3500&pause=1200&color=FF7B00&center=true&vCenter=true&width=1000&lines=🎮+Tic+Tac+Toe+BerMatCode;🔥+Realtime+Multiplayer+Game;⚡+Interactive+Gaming+Experience;🚀+Powered+By+Firebase" />
 
-# <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=38&duration=3500&pause=1200&color=000000&center=true&vCenter=true&width=900&lines=⚡+Anth'Zz+Berrocal+-+BerMatCode;🎮+Tic+Tac+Toe+Multiplayer;🔥+Firebase+%2B+Realtime+Gameplay;🚀+Interactive+Gaming+Experience" />
-
-<img src="https://capsule-render.vercel.app/api?type=waving&height=220&text=Tic%20Tac%20Toe%20BerMatCode&fontSize=42&fontAlignY=40&color=0:000000,50:1a1a1a,100:333333&fontColor=ffffff&animation=fadeIn"/>
-
-</div>
-
+<img src="https://capsule-render.vercel.app/api?type=waving&height=260&text=Tic%20Tac%20Toe%20BerMatCode&fontSize=48&fontAlignY=40&color=0:ff7b00,50:ff9d00,100:ffb347&fontColor=ffffff&animation=fadeIn"/></div>
 ---
 
-<div align="center">
-
-## ⚡ About Project
+<div align="center">🧡 About The Project
 
 <table>
 <tr>
-<td align="center" width="300">
+<td align="center" width="320"><img src="https://img.icons8.com/fluency/96/controller.png"/>🎮 Multiplayer Mode
 
-### 🎮 Multiplayer
-Realtime online matches with Firebase synchronization.
+Create private rooms and play online with friends in realtime using Firebase synchronization.
 
-</td>
+</td><td align="center" width="320"><img src="https://img.icons8.com/fluency/96/fire-element.png"/>🔥 Modern Interface
 
-<td align="center" width="300">
+Animated design with smooth transitions, responsive layout and interactive effects.
 
-### 🔥 Modern Design
-Animated UI with responsive mobile gameplay.
+</td><td align="center" width="320"><img src="https://img.icons8.com/fluency/96/rocket.png"/>⚡ Interactive Systems
 
-</td>
-
-<td align="center" width="300">
-
-### 🚀 Interactive
-Reactions, sounds, rematch system and effects.
+Reactions, sound effects, rematch system and dynamic gameplay experience.
 
 </td>
 </tr>
-</table>
-
-</div>
-
+</table></div>
 ---
 
-<div align="center">
-
-# 🧠 Project Preview
-
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&duration=3200&pause=1000&color=000000&center=true&vCenter=true&width=700&lines=Realtime+Multiplayer+Gaming;Animated+Interface+Experience;Firebase+Cloud+Synchronization;Created+by+BerMatCode" />
+<div align="center"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=3200&pause=1000&color=FF7B00&center=true&vCenter=true&width=850&lines=🔥+Realtime+Firebase+Gameplay;🎮+Interactive+Online+Experience;⚡+Animated+UI+Design;🚀+Created+By+BerMatCode" />
 
 </div>
-
 ---
 
-# ⚙️ Main Features
+🧠 Main Features
 
-<table>
+<div align="center"><table>
 <tr>
-<td>
+<td width="450">⚡ Multiplayer Systems
 
-✅ Multiplayer rooms  
-✅ Realtime Firebase Database  
-✅ Mobile Friendly UI  
-✅ Interactive reactions system  
-✅ Animated victory effects  
-✅ Sound effects system  
-✅ Drag reactions anywhere  
-✅ Rematch system  
-✅ Responsive gameplay  
-✅ Professional modern design  
+✅ Realtime online rooms
 
-</td>
+✅ Private game codes
 
-<td align="center">
+✅ Firebase synchronization
 
-<img width="320" src="https://media.tenor.com/2roX3uxz_68AAAAM/cat-space.gif">
+✅ Live turn detection
+
+✅ Online rematch system
+
+
+</td><td width="450">🎨 Interactive Experience
+
+✅ Animated interface
+
+✅ Reaction emoji system
+
+✅ Sound effects
+
+✅ Victory animations
+
+✅ Mobile responsive design
+
 
 </td>
 </tr>
-</table>
-
+</table></div>
 ---
 
-# 🎨 Technologies Used
+<div align="center">🎮 Game Preview
 
-<div align="center">
+<img width="850" src="https://media.tenor.com/2roX3uxz_68AAAAM/cat-space.gif"></div>
+---
 
-<table>
+🧡 Technologies Used
+
+<div align="center"><table>
 <tr>
-<td align="center" width="150">
+<td align="center" width="180"><img src="https://skillicons.dev/icons?i=html" width="80"><br><br>
 
-<img src="https://skillicons.dev/icons?i=html" width="70"><br>
 HTML5
 
-</td>
+Structure and game system.
 
-<td align="center" width="150">
+</td><td align="center" width="180"><img src="https://skillicons.dev/icons?i=css" width="80"><br><br>
 
-<img src="https://skillicons.dev/icons?i=css" width="70"><br>
 CSS3
 
-</td>
+Animations and responsive design.
 
-<td align="center" width="150">
+</td><td align="center" width="180"><img src="https://skillicons.dev/icons?i=javascript" width="80"><br><br>
 
-<img src="https://skillicons.dev/icons?i=javascript" width="70"><br>
 JavaScript
 
-</td>
+Interactive gameplay mechanics.
 
-<td align="center" width="150">
+</td><td align="center" width="180"><img src="https://skillicons.dev/icons?i=firebase" width="80"><br><br>
 
-<img src="https://skillicons.dev/icons?i=firebase" width="70"><br>
 Firebase
+
+Realtime multiplayer synchronization.
 
 </td>
 </tr>
-</table>
-
-</div>
-
+</table></div>
 ---
 
-# 🚀 Game System
+🚀 Gameplay Flow
 
-<div align="center">
-
-```txt
-🎮 Create Room
-      ↓
+<div align="center">🎮 Create Room
+        ↓
 📲 Share Code
-      ↓
-⚡ Join Match
-      ↓
-🔥 Play Online
-      ↓
+        ↓
+⚡ Friend Joins
+        ↓
+🔥 Start Match
+        ↓
 🏆 Victory / Draw
 
 </div>
 ---
 
-📊 Repository Statistics
+<div align="center">📊 Repository Statistics
 
-<div align="center"><img height="180em" src="https://github-readme-stats.vercel.app/api?username=BerMatCode&show_icons=true&theme=default&hide_border=true&bg_color=00000000&title_color=000000&text_color=000000&icon_color=000000"/><img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=BerMatCode&theme=default&hide_border=true&background=FFFFFF&stroke=000000&ring=000000&fire=000000&currStreakLabel=000000"/></div>
+<img height="190em" src="https://github-readme-stats.vercel.app/api?username=BerMatCode&show_icons=true&theme=transparent&hide_border=true&title_color=ff7b00&text_color=ff9d00&icon_color=ff7b00"/><img height="190em" src="https://github-readme-streak-stats.herokuapp.com/?user=BerMatCode&theme=transparent&hide_border=true&ring=ff7b00&fire=ff9d00&currStreakLabel=ff7b00&sideLabels=ff9d00&currStreakNum=ff7b00&sideNums=ff9d00"/></div>
 ---
 
-🎯 Special Systems
+⚙️ Included Systems
 
-<div align="center">⚡ System	🔥 Included
+<div align="center">🔥 System	⚡ Status
 
 Multiplayer Rooms	✅
-Reactions Emojis	✅
-Audio Effects	✅
-Winner Animations	✅
-Turn Detection	✅
-Rematch Requests	✅
 Firebase Sync	✅
-Mobile Support	✅
+Sound Effects	✅
+Emoji Reactions	✅
+Winner Effects	✅
+Turn Validation	✅
+Mobile Friendly	✅
+Realtime Gameplay	✅
 
 
 </div>
 ---
 
-🖤 Project Banner
+<div align="center">🧡 Interactive Banner
 
-<div align="center"><img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=28&duration=4200&pause=1500&color=000000&center=true&vCenter=true&width=1000&lines=⚡+Realtime+Tic+Tac+Toe+Experience;🔥+Interactive+Online+Gameplay;🎮+Created+With+Firebase;🚀+Powered+By+BerMatCode" /></div>
+<img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=30&duration=4200&pause=1500&color=FF7B00&center=true&vCenter=true&width=1000&lines=⚡+Interactive+Multiplayer+Experience;🔥+Modern+Realtime+Gameplay;🎮+Firebase+Cloud+Synchronization;🚀+Powered+By+BerMatCode" /></div>
 ---
 
-🌐 Repository
+🌐 Official Repository
 
 <div align="center"><a href="https://github.com/BerMatCode/Tic-Tac-Toe">
-<img src="https://img.shields.io/badge/GITHUB-REPOSITORY-black?style=for-the-badge&logo=github&logoColor=white"/>
+<img src="https://img.shields.io/badge/🔥%20OPEN%20REPOSITORY-ff7b00?style=for-the-badge&logo=github&logoColor=white"/>
 </a><a href="https://firebase.google.com/">
-<img src="https://img.shields.io/badge/FIREBASE-CONNECTED-black?style=for-the-badge&logo=firebase&logoColor=orange"/>
+<img src="https://img.shields.io/badge/⚡%20FIREBASE-CONNECTED-ff9d00?style=for-the-badge&logo=firebase&logoColor=white"/>
 </a></div>
 ---
 
 <div align="center">⚡ Anth'Zz Berrocal – BerMatCode
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=24&duration=3800&pause=1200&color=000000&center=true&vCenter=true&width=850&lines=🤖+Developer+MultiDevice;🧠+Automation+Engineer;🔥+Interactive+Web+Creator;⚡+BerMatCode+Projects" /></div>
+<img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=28&duration=3800&pause=1200&color=FF7B00&center=true&vCenter=true&width=900&lines=🤖+Developer+MultiDevice;🧠+Automation+Engineer;🔥+Interactive+Web+Creator;⚡+Advanced+Gaming+Projects" /></div>
 ---
 
-<div align="center"><img src="https://capsule-render.vercel.app/api?type=waving&height=130&section=footer&color=0:000000,50:1a1a1a,100:333333"/></div>
-```
+<div align="center"><img src="https://capsule-render.vercel.app/api?type=waving&height=150&section=footer&color=0:ff7b00,50:ff9d00,100:ffb347"/></div>
